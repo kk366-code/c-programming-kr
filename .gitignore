@@ -1,0 +1,50 @@
+# C言語プロジェクトで無視すべき標準的なファイル
+
+# 実行ファイル (Executable files)
+# Windows/Linuxでのデフォルトの実行ファイル名
+a.out
+*.exe
+*.dll
+
+# オブジェクトファイル (Object files)
+# コンパイル時に生成される中間ファイル
+*.o
+*.obj
+
+# ライブラリファイル (Library files)
+*.a
+*.lib
+*.so
+*.dylib
+
+# デバッグ・テスト用のファイル
+*.gch
+*.pch
+*.test
+
+# メイクファイル (Makefile) が生成する可能性のあるターゲット
+*.out
+*.bin
+/bin
+/build
+
+# IDEやエディタのファイル
+# Visual Studio Code (VS Code)
+.vscode/
+
+# Visual Studio (Windowsの場合)
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.suo
+*.user
+Debug/
+Release/
+
+# Vim/Nano/Emacsなどのエディタの一時ファイル
+*~
+#*#
+
+# macOS (不要な場合もありますが、環境によっては追加します)
+.DS_Store
