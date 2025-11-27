@@ -14,6 +14,23 @@ void reverse(char s[]) {
     }
 }
 
+void reverse_without_comma(char s[]) {
+    int c;
+    // jはforループ外で初期化が必要（j--は本体内で行うため）
+    int j = strlen(s) - 1;
+
+    // iはforループ内で宣言・初期化
+    for (int i = 0; i < j; i++) {
+        // 文字の交換（スワップ）処理
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+
+        // jの更新（デクリメント）
+        j--;
+    }
+}
+
 int main() {
     // 1. 反転する文字列を準備
     // 配列として宣言し、変更可能にする必要がある
