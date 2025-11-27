@@ -3,6 +3,7 @@
 #include <string.h>
 
 void expand(char s1[], char s2[]);
+void expand_simplified(char s1[], char s2[]);
 
 #define MAX_LEN 1000
 
@@ -76,5 +77,64 @@ void expand(char s1[], char s2[]) {
     }
 
     // 7. s2に終端文字（ナル文字）を追加
+    s2[j] = '\0';
+}
+
+void expand_simplified(char s1[], char s2[]) {
+    // 宣言と同時に初期化。i は s1 の読み込み位置、j は s2 の書き込み位置。
+    int i = 0;
+    int j = 0;
+    char start = '\0';
+    char end = '\0';
+
+    // 1. s1の先頭のハイフンを処理 (文字通り扱う)
+    if (s1[i] == '-') {
+        s2[j++] = s1[i++];
+    }
+
+    while (s1[i] != '\0') {
+        start = s1[i];
+
+        // --- ガード句 1: 次の文字がハイフンでなければ、単なる文字としてコピー ---
+        // 末尾のハイフン (s1[i+1]が'-'で、s1[i+2]が'\0') もこの後の処理で対応
+        if (s1[i + 1] != '-') {
+            s2[j++] = s1[i++];
+            continue;
+        }
+
+        // --- ガード句 2: ハイフンの次の文字が終端文字なら、末尾のハイフンとして処理 ---
+        if (s1[i + 2] == '\0') {
+            s2[j++] = s1[i++];  // 'start' 文字をコピー
+            s2[j++] = s1[i++];  // ハイフンをコピー
+            continue;
+        }
+
+        // ここに到達した場合、「文字-文字」のパターンである
+
+        end = s1[i + 2];
+
+        // 2. 有効な省略表現の条件を確認 (同じ文字種で、昇順であること)
+        int valid = (islower(start) && islower(end) && start <= end) ||
+                    (isupper(start) && isupper(end) && start <= end) ||
+                    (isdigit(start) && isdigit(end) && start <= end);
+
+        if (valid) {
+            // 3. 有効な省略表現の場合、展開
+            // k は展開する文字自体として使用
+            for (char k = start; k <= end; k++) {
+                s2[j++] = k;
+            }
+
+            // 4. s1のインデックスをスキップ (開始文字, ハイフン, 終了文字の3文字)
+            i += 3;
+        } else {
+            // 5. 無効な省略表現（例: a-C）の場合、文字通りコピー
+            s2[j++] = s1[i++];  // 'start' 文字をコピー
+            s2[j++] = s1[i++];  // ハイフンをコピー
+            // 'end' 文字（s1[i]）は次のループで 'start' 文字として処理される
+        }
+    }
+
+    // 6. s2に終端文字（ナル文字）を追加
     s2[j] = '\0';
 }
