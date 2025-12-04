@@ -59,3 +59,6 @@ Release/
 
 # .h ファイルは無視しない (追跡対象に戻す)
 !*.h
+
+# Code Runner 拡張機能が生成する一時ファイル
+tempCodeRunnerFile.c
